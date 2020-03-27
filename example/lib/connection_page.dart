@@ -91,47 +91,61 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
   List<StatusMessage> _statuses = [];
   StreamSubscription _sub;
 
+  static const _connectionStates = {
+    BACtrackState.foundBreathalyzer,
+    BACtrackState.didConnect,
+    BACtrackState.connected,
+    BACtrackState.connectionTimeout,
+    BACtrackState.disconnected,
+    BACtrackState.error,
+  };
+
   @override
   void initState() {
     super.initState();
-    _sub = widget.bacTrackPlugin.statusStream.listen(
-      (status) {
-        print('Got status ${status.state}, "${status.message}"');
-        switch (status.state) {
-          case BACtrackState.apiKeyDeclined:
-          case BACtrackState.connectionTimeout:
-            setState(() {
-              _connectionStatus = StatusMessage(_connectToNearestDeviceText, false);
-              _statuses.add(StatusMessage(status.state.toString(), false));
-            });
-            break;
+    _sub = widget.bacTrackPlugin.statusStream
+        .map((status) {
+          print("Got status from plugin: ${status.state} with message: '${status.message}'");
+          return status;
+        })
+        .where((status) => _connectionStates.contains(status.state))
+        .listen(
+          (status) {
+            switch (status.state) {
+              case BACtrackState.apiKeyDeclined:
+              case BACtrackState.connectionTimeout:
+                setState(() {
+                  _connectionStatus = StatusMessage(_connectToNearestDeviceText, false);
+                  _statuses.add(StatusMessage(status.state.toString(), false));
+                });
+                break;
 
-          case BACtrackState.foundBreathalyzer:
-          case BACtrackState.apiKeyAuthorized:
-          case BACtrackState.didConnect:
-            setState(() => _statuses.add(StatusMessage(status.state.toString(), true)));
-            break;
+              case BACtrackState.foundBreathalyzer:
+              case BACtrackState.apiKeyAuthorized:
+              case BACtrackState.didConnect:
+                setState(() => _statuses.add(StatusMessage(status.state.toString(), true)));
+                break;
 
-          case BACtrackState.disconnected:
-            setState(() {
-              _isConnected = false;
-              _statuses.add(StatusMessage(status.state.toString(), true));
-            });
-            break;
+              case BACtrackState.disconnected:
+                setState(() {
+                  _isConnected = false;
+                  _statuses.add(StatusMessage(status.state.toString(), true));
+                });
+                break;
 
-          case BACtrackState.connected:
-            setState(() {
-              _isConnected = true;
-              _connectionStatus = StatusMessage(_connectToNearestDeviceText, true);
-              _statuses.add(StatusMessage(status.state.toString(), true));
-            });
-            break;
+              case BACtrackState.connected:
+                setState(() {
+                  _isConnected = true;
+                  _connectionStatus = StatusMessage(_connectToNearestDeviceText, true);
+                  _statuses.add(StatusMessage(status.state.toString(), true));
+                });
+                break;
 
-          default:
-            setState(() => _statuses.add(StatusMessage("$_unexpectedStateText ${status.state.toString()}", false)));
-        }
-      },
-    );
+              default:
+                setState(() => _statuses.add(StatusMessage("$_unexpectedStateText ${status.state.toString()}", false)));
+            }
+          },
+        );
   }
 
   void dispose() {
@@ -159,7 +173,7 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
         ),
         if (_isConnected)
           OutlineButton(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed(controlRoute, arguments: widget.bacTrackPlugin),
             child: Text(_nextText),
           )
       ],

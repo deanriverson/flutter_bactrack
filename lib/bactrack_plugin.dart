@@ -11,6 +11,9 @@ const stopScanMethod = "stopScan";
 const connectToDeviceMethod = "connectToDevice";
 const startCountdownMethod = "startCountdown";
 const getBreathalyzerBatteryVoltageMethod = "getBreathalyzerBatteryVoltage";
+const getUseCountMethod = "getUseCount";
+const getSerialNumberMethod = "getSerialNumber";
+const getFirmwareVersionMethod = "getFirmwareVersion";
 
 /// There is one corresponding BACtrackState for each of the methods in the BACtrackAPICallbacks
 /// object defined in the BACtrack SDK. These states are named the same as the callback methods
@@ -132,6 +135,51 @@ class BACtrackPlugin {
     } else {
       await _channel.invokeMethod(connectToNearestBreathalyzerMethod);
     }
+  }
+
+  /// Start the process of collecting a BAC reading. The following states can be
+  /// emitted on the [statusStream] in response:
+  ///   * [BACtrackState.countDown]
+  ///   * [BACtrackState.startBlowing]
+  ///   * [BACtrackState.keepBlowing]
+  ///   * [BACtrackState.analyzing]
+  ///   * [BACtrackState.results].
+  ///   * [BACtrackState.error].
+  Future<bool> startCountdown() async {
+    return await _channel.invokeMethod(startCountdownMethod);
+  }
+
+  /// Get the battery voltage and level from the connected device. The following states can be
+  /// emitted on the [statusStream] in response:
+  ///   * [BACtrackState.batteryVoltage]
+  ///   * [BACtrackState.batteryLevel]
+  ///   * [BACtrackState.error].
+  Future<bool> getBreathalyzerBatteryVoltage() async {
+    return await _channel.invokeMethod(getBreathalyzerBatteryVoltageMethod);
+  }
+
+  /// Get the use count from the connected device. The following states can be
+  /// emitted on the [statusStream] in response:
+  ///   * [BACtrackState.useCount]
+  ///   * [BACtrackState.error].
+  Future<bool> getUseCount() async {
+    return await _channel.invokeMethod(getUseCountMethod);
+  }
+
+  /// Get the serial number from the connected device. The following states can be
+  /// emitted on the [statusStream] in response:
+  ///   * [BACtrackState.serialNumber]
+  ///   * [BACtrackState.error].
+  Future<bool> getSerialNumber() async {
+    return await _channel.invokeMethod(getSerialNumberMethod);
+  }
+
+  /// Get the firmware version from the connected device. The following states can be
+  /// emitted on the [statusStream] in response:
+  ///   * [BACtrackState.firmwareVersion]
+  ///   * [BACtrackState.error].
+  Future<bool> getFirmwareVersion() async {
+    return await _channel.invokeMethod(getFirmwareVersionMethod);
   }
 
   /// Disconnect from the connected device. The following states can be

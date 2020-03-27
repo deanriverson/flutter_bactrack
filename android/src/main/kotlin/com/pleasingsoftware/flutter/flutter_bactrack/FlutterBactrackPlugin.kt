@@ -40,6 +40,9 @@ private const val stopScanMethod = "stopScan"
 private const val connectToDeviceMethod = "connectToDevice"
 private const val startCountdownMethod = "startCountdown"
 private const val getBreathalyzerBatteryVoltageMethod = "getBreathalyzerBatteryVoltage"
+private const val getUseCountMethod = "getUseCount"
+private const val getSerialNumberMethod = "getSerialNumber"
+private const val getFirmwareVersionMethod = "getFirmwareVersion"
 
 // Methods going back to Dart. MUST BE kept in sync with BACtrackState enum in bactrack_plugin.dart.
 private const val apiKeyDeclinedMethod = "apiKeyDeclined"
@@ -163,7 +166,10 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
                 startScanMethod -> result.notImplemented()
                 stopScanMethod -> result.notImplemented()
                 startCountdownMethod -> handleCountdown(result)
-                getBreathalyzerBatteryVoltageMethod -> result.notImplemented()
+                getBreathalyzerBatteryVoltageMethod -> handleGetBatteryVoltage(result)
+                getUseCountMethod -> handleGetUseCount(result)
+                getSerialNumberMethod -> handleGetSerialNumber(result)
+                getFirmwareVersionMethod -> handleGetFirmwareVersion(result)
                 else -> result.notImplemented()
             }
         }
@@ -215,6 +221,22 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
 
     private fun handleCountdown(result: Result) {
         result.success(api?.startCountdown())
+    }
+
+    private fun handleGetBatteryVoltage(result: Result) {
+        result.success(api?.breathalyzerBatteryVoltage)
+    }
+
+    private fun handleGetUseCount(result: Result) {
+        result.success(api?.useCount)
+    }
+
+    private fun handleGetSerialNumber(result: Result) {
+        result.success(api?.serialNumber)
+    }
+
+    private fun handleGetFirmwareVersion(result: Result) {
+        result.success(api?.firmwareVersion)
     }
 
     private val mCallbacks: BACtrackAPICallbacks = object : BACtrackAPICallbacks {
@@ -271,7 +293,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
         }
 
         override fun BACtrackResults(measuredBac: Float) {
-            invokeChannelMethodOnMainThread(countDownMethod, measuredBac.toString())
+            invokeChannelMethodOnMainThread(resultsMethod, measuredBac.toString())
         }
 
         override fun BACtrackFirmwareVersion(version: String) {
@@ -279,7 +301,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
         }
 
         override fun BACtrackSerial(serialHex: String) {
-            invokeChannelMethodOnMainThread(firmwareVersionMethod, serialHex)
+            invokeChannelMethodOnMainThread(serialNumberMethod, serialHex)
         }
 
         override fun BACtrackUseCount(useCount: Int) {
