@@ -6,21 +6,16 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bactrack_example/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_bactrack_example/main.dart';
-
 void main() {
-  testWidgets('Verify Platform version', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+  testWidgets('Verify API key form is displayed at startup', (WidgetTester tester) async {
+    // Build our page and trigger a frame.
+    await tester.pumpWidget(BACtrackExampleApp());
 
-    // Verify that platform version is retrieved.
     expect(
-      find.byWidgetPredicate(
-        (Widget widget) => widget is Text &&
-                           widget.data.startsWith('Running on:'),
-      ),
+      find.byWidgetPredicate((Widget widget) => widget is Text && widget.data.startsWith('Enter')),
       findsOneWidget,
     );
   });

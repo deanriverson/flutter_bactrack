@@ -6,3 +6,6 @@
 .idea/
 
 build/
+local.properties
+lib/*.jar
+example/ios/Podfile.lock
