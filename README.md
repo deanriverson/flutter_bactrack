@@ -18,7 +18,7 @@ The following features of the BACtrack SDK are supported at this time by the plu
 You are required to obtain an API key in order to use the BACtrack SDK to connect to a BACtrack breathalyzer.  API keys are freely available by registering on the BACtrack [developer site][3].
 
 #### Android
-The following permissions must be declared in the <manifest> section of your application's manifest file in order to use the BACtrack SDK.
+The following permissions must be declared in the `manifest` section of your application's manifest file in order to use the BACtrack SDK.
 ```xml
 <manifest>
 
