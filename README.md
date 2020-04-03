@@ -6,11 +6,12 @@ A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.
 
 #### Features
 The following features of the BACtrack SDK are supported at this time by the plugin.
-  * Support for connecting to nearest breathalyzer (with or without a timeout)
-  * Mannually disconnect from the breathalyzer
-  * Take a BAC reading from the breathalyzer including the countdown, blowing, analysis, and results phases.
-  * Get battery voltage level of breathalyzer
-  * Permissions are automatically managed by the plugin
+
+  * :white_check_mark: Support for connecting to nearest breathalyzer (with or without a timeout)
+  * :white_check_mark: Mannually disconnect from the breathalyzer
+  * :white_check_mark: Take a BAC reading from the breathalyzer including the countdown, blowing, analysis, and results phases.
+  * :white_check_mark: Get battery voltage level of breathalyzer
+  * :white_check_mark: Permissions are automatically managed by the plugin
   
 ## Getting Started
 You are required to obtain an API key in order to use the BACtrack SDK to connect to a BACtrack breathalyzer.  API keys are freely available by registering on the BACtrack [developer site][3].
@@ -41,7 +42,7 @@ On iOS, you only need to declare the Bluetooth permission in your Info.plist fil
 </dict>
 ```
 
-#### Basic Usage
+#### Instantiation
 The first thing to do is to get an instance of the plugin.
 
 ```dart
