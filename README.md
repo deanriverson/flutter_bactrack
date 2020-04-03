@@ -1,6 +1,7 @@
 # BACtrack Plugin
 
-A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.  
+A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.  This plugin will allow you to collect
+breathalyzer samples from a [BACtrack Bluetooth breathalyzer][6].
 
 > Note: this plugin is written in Kotlin and Swift.
 
@@ -115,3 +116,4 @@ I don't work on this full time, but I'll try to offer whatever help I can.
 [3]: https://developer.bactrack.com
 [4]: https://api.dart.dev/stable/2.7.2/dart-async/Stream-class.html
 [5]: https://pub.dev/packages/flutter_secure_storage
+[6]: https://www.bactrack.com/
