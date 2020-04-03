@@ -88,7 +88,7 @@ try {
 
 The above code is a bit simplistic. In reality you would want to listen for more of the status updates
 that can be emitted by the `statusStream` in response to a `connectToNearestBreathalyer()` call.  For
-example, any of the following status states maybe be emitted:
+example, any of the following status states maybe be emitted when you connect to a breathalyzer:
   * `BACtrackState.apiKeyAuthorized`
   * `BACtrackState.apiKeyDeclined`
   * `BACtrackState.didConnect`
