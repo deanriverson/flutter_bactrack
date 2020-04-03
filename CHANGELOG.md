@@ -1,3 +1,7 @@
+## v0.3.1
+
+* Documentation improvements
+
 ## v0.3.0
 
 * FlutterBactrack constructor should have been private.
