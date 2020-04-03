@@ -22,7 +22,7 @@ The following permissions must be declared in the `manifest` section of your app
 ```xml
 <manifest>
 
-    <--! ... -->
+    <!-- ... -->
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
