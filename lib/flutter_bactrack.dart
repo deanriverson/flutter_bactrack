@@ -106,15 +106,15 @@ class FlutterBactrack {
   BACtrackStatus _currentStatus;
   StreamController<BACtrackStatus> _statusStreamController;
 
-  /// Use this constructor to get a reference to an object that allows you to interact with
-  /// a BACtrack device.
-  FlutterBactrack() {
+  FlutterBactrack._() {
     _statusStreamController = StreamController.broadcast(onListen: _onListen);
     _channel.setMethodCallHandler(_handleMethodCall);
   }
 
+  /// Use this method to get a reference to an object that allows you to interact with
+  /// a BACtrack device.
   static Future<FlutterBactrack> instance(String apiKey) async {
-    _instance ??= FlutterBactrack();
+    _instance ??= FlutterBactrack._();
     await _channel.invokeMethod(initMethod, apiKey);
     return _instance;
   }
