@@ -52,7 +52,7 @@ final Map<String, BACtrackState> methodNameToState = BACtrackState.values.fold({
   return map;
 });
 
-/// BACtrackStatus objects are emitted on the [BACtrackPlugin.statusStream]. Not all
+/// BACtrackStatus objects are emitted on the [FlutterBactrack.statusStream]. Not all
 /// states have an associated message. In these cases the [message] string is empty,
 /// it will never be null.
 ///
@@ -96,24 +96,24 @@ class BACtrackStatus {
 
 /// This class provides the main interface to the BACtrack Flutter plugin.  It is
 /// a singleton so only one instance will ever be created in a Flutter application.
-class BACtrackPlugin {
+class FlutterBactrack {
   static const CHANNEL_ID = "com.pleasingsoftware.flutter/bactrack_plugin";
   static const MethodChannel _channel = MethodChannel(CHANNEL_ID);
 
-  static BACtrackPlugin _instance;
+  static FlutterBactrack _instance;
 
   BACtrackStatus currentStatus;
   StreamController<BACtrackStatus> _statusStreamController;
 
   /// Use this constructor to get a reference to an object that allows you to interact with
   /// a BACtrack device.
-  BACtrackPlugin() {
+  FlutterBactrack() {
     _statusStreamController = StreamController.broadcast(onListen: _onListen);
     _channel.setMethodCallHandler(_handleMethodCall);
   }
 
-  static Future<BACtrackPlugin> instance(String apiKey) async {
-    _instance ??= BACtrackPlugin();
+  static Future<FlutterBactrack> instance(String apiKey) async {
+    _instance ??= FlutterBactrack();
     await _channel.invokeMethod(initMethod, apiKey);
     return _instance;
   }
@@ -220,4 +220,4 @@ class BACtrackPlugin {
 /// This method is for unit testing only!  It provides the ability to set up
 /// a mock handler for the plugin channel.
 void bacTrackPluginSetMockMethodCallHandler(Function(MethodCall) mockHandler) =>
-    BACtrackPlugin._channel.setMockMethodCallHandler(mockHandler);
+    FlutterBactrack._channel.setMockMethodCallHandler(mockHandler);

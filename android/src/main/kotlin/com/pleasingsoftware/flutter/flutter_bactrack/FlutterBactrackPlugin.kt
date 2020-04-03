@@ -30,7 +30,7 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 private const val tag = "FlutterBactrackPlugin"
 private const val CHANNEL_ID = "com.pleasingsoftware.flutter/bactrack_plugin"
 
-// Methods coming in from Dart. MUST BE kept in sync with strings in bactrack_plugin.dart.
+// Methods coming in from Dart. MUST BE kept in sync with strings in flutter_bactrack.dart.
 private const val initMethod = "init"
 private const val connectToNearestBreathalyzerMethod = "connectToNearestBreathalyzer"
 private const val connectToNearestBreathalyzerWithTimeoutMethod = "connectToNearestBreathalyzerWithTimeout"
@@ -44,7 +44,7 @@ private const val getUseCountMethod = "getUseCount"
 private const val getSerialNumberMethod = "getSerialNumber"
 private const val getFirmwareVersionMethod = "getFirmwareVersion"
 
-// Methods going back to Dart. MUST BE kept in sync with BACtrackState enum in bactrack_plugin.dart.
+// Methods going back to Dart. MUST BE kept in sync with BACtrackState enum in flutter_bactrack.dart.
 private const val apiKeyDeclinedMethod = "apiKeyDeclined"
 private const val apiKeyAuthorizedMethod = "apiKeyAuthorized"
 private const val didConnectMethod = "didConnect"

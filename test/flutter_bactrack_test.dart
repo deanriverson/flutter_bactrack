@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_bactrack/bactrack_plugin.dart';
+import 'package:flutter_bactrack/flutter_bactrack.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -16,7 +16,7 @@ void main() {
       return Future.value();
     });
 
-    await BACtrackPlugin.instance(apiKey);
+    await FlutterBactrack.instance(apiKey);
     expect(apiKeyWasReceived, isTrue);
   });
 
@@ -30,7 +30,7 @@ void main() {
       return Future.value();
     });
 
-    final plugin = await BACtrackPlugin.instance('whatever_key');
+    final plugin = await FlutterBactrack.instance('whatever_key');
 
     plugin.connectToNearestBreathalyzer();
     expect(correctMethodCalled, isTrue);
@@ -52,7 +52,7 @@ void main() {
       return Future.value();
     });
 
-    final plugin = await BACtrackPlugin.instance('whatever_key');
+    final plugin = await FlutterBactrack.instance('whatever_key');
     plugin.connectToNearestBreathalyzer(withTimeout: true);
     expect(correctMethodCalled, isTrue);
   });
