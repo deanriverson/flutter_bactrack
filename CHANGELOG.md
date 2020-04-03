@@ -1,3 +1,8 @@
+## v0.3.0
+
+* FlutterBactrack constructor should have been private.
+* Documentation improvements
+
 ## v0.2.0
 
 * Small improvements to API
