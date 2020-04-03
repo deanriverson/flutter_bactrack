@@ -46,7 +46,8 @@ enum BACtrackState {
   error,
 }
 
-final Map<String, BACtrackState> methodNameToState = BACtrackState.values.fold({}, (map, state) {
+/// An internal method to map method names to [BACtracState] enum values.
+final Map<String, BACtrackState> _methodNameToState = BACtrackState.values.fold({}, (map, state) {
   final name = state.toString().split('.')[1];
   map[name] = state;
   return map;
@@ -102,7 +103,7 @@ class FlutterBactrack {
 
   static FlutterBactrack _instance;
 
-  BACtrackStatus currentStatus;
+  BACtrackStatus _currentStatus;
   StreamController<BACtrackStatus> _statusStreamController;
 
   /// Use this constructor to get a reference to an object that allows you to interact with
@@ -121,6 +122,9 @@ class FlutterBactrack {
   /// This [Stream] emits [BACtrackStatus] objects to allow the Flutter application
   /// to monitor the state of the BACtrack SDK and device.
   Stream<BACtrackStatus> get statusStream => _statusStreamController.stream;
+
+  /// The last status update that was received by the plugin and emitted by the [statusStream].
+  BACtrackStatus get currentStatus => _currentStatus;
 
   /// Connect to the nearest breathalyzer that can be found. The following states can be
   /// emitted on the [statusStream] in response:
@@ -154,6 +158,8 @@ class FlutterBactrack {
   ///   * [BACtrackState.batteryVoltage]
   ///   * [BACtrackState.batteryLevel]
   ///   * [BACtrackState.error].
+  ///
+  /// iOS Note: Only batteryLevel is available on iOS.
   Future<bool> getBreathalyzerBatteryVoltage() async {
     return await _channel.invokeMethod(getBreathalyzerBatteryVoltageMethod);
   }
@@ -162,6 +168,9 @@ class FlutterBactrack {
   /// emitted on the [statusStream] in response:
   ///   * [BACtrackState.useCount]
   ///   * [BACtrackState.error].
+  ///
+  /// Note: Is not supported on all BACtrack devices.
+  /// iOS Note: Not available on iOS.
   Future<bool> getUseCount() async {
     return await _channel.invokeMethod(getUseCountMethod);
   }
@@ -170,6 +179,8 @@ class FlutterBactrack {
   /// emitted on the [statusStream] in response:
   ///   * [BACtrackState.serialNumber]
   ///   * [BACtrackState.error].
+  ///
+  /// iOS Note: Not available on iOS.
   Future<bool> getSerialNumber() async {
     return await _channel.invokeMethod(getSerialNumberMethod);
   }
@@ -178,6 +189,8 @@ class FlutterBactrack {
   /// emitted on the [statusStream] in response:
   ///   * [BACtrackState.firmwareVersion]
   ///   * [BACtrackState.error].
+  ///
+  /// iOS Note: Not available on iOS.
   Future<bool> getFirmwareVersion() async {
     return await _channel.invokeMethod(getFirmwareVersionMethod);
   }
@@ -199,21 +212,21 @@ class FlutterBactrack {
   /// Send out the current BACtrackStatus, if there is one, every time a
   /// listener is added.
   void _onListen() {
-    if (currentStatus != null) {
-      _statusStreamController.add(currentStatus);
+    if (_currentStatus != null) {
+      _statusStreamController.add(_currentStatus);
     }
   }
 
   Future _handleMethodCall(MethodCall call) async {
-    final state = methodNameToState[call.method];
+    final state = _methodNameToState[call.method];
     if (state != null) {
       _updateStream(state, call.arguments?.toString());
     }
   }
 
   void _updateStream(BACtrackState state, String message) {
-    currentStatus = BACtrackStatus(state, message: message ?? '');
-    _statusStreamController.add(currentStatus);
+    _currentStatus = BACtrackStatus(state, message: message ?? '');
+    _statusStreamController.add(_currentStatus);
   }
 }
 
