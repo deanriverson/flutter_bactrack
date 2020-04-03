@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bactrack/bactrack_plugin.dart';
+import 'package:flutter_bactrack/flutter_bactrack.dart';
 import 'package:flutter_bactrack_example/main.dart';
 
 class ControlPage extends StatelessWidget {
   const ControlPage({Key key, this.bacTrackPlugin}) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class BACTestTile extends StatelessWidget {
     @required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class BatteryVoltageTile extends StatefulWidget {
     @required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
 
   @override
   _BatteryVoltageTileState createState() => _BatteryVoltageTileState();
@@ -173,7 +173,7 @@ class UseCountTile extends StatelessWidget {
     @required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +222,7 @@ class SerialNumberTile extends StatelessWidget {
     @required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +271,7 @@ class FirmwareVersionTile extends StatelessWidget {
     @required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {

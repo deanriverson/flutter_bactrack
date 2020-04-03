@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bactrack/bactrack_plugin.dart';
+import 'package:flutter_bactrack/flutter_bactrack.dart';
 import 'package:flutter_bactrack_example/main.dart';
 
 const _nextText = "Next";
@@ -30,7 +30,7 @@ class ConnectionPage extends StatefulWidget {
 }
 
 class _ConnectionPageState extends State<ConnectionPage> {
-  BACtrackPlugin _bacTrackPlugin;
+  FlutterBactrack _bacTrackPlugin;
   StatusMessage _initStatus;
 
   @override
@@ -60,7 +60,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
 
   Future _initPlugin(String apiKey) async {
     try {
-      final plugin = await BACtrackPlugin.instance(apiKey);
+      final plugin = await FlutterBactrack.instance(apiKey);
       _bacTrackPlugin = plugin;
       setState(() => _initStatus = StatusMessage(_initializingPluginText, true));
     } on PlatformException catch (e) {
@@ -78,7 +78,7 @@ class ConnectionContainer extends StatefulWidget {
     @required this.initStatus,
   }) : super(key: key);
 
-  final BACtrackPlugin bacTrackPlugin;
+  final FlutterBactrack bacTrackPlugin;
   final StatusMessage initStatus;
 
   @override
