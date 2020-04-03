@@ -1,6 +1,7 @@
 # BACtrack Plugin
 
-A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.  
+A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.  This plugin will allow you to collect
+breathalyzer samples from a [BACtrack Bluetooth breathalyzer][6].
 
 > Note: this plugin is written in Kotlin and Swift.
 
@@ -17,7 +18,7 @@ The following features of the BACtrack SDK are supported at this time by the plu
 You are required to obtain an API key in order to use the BACtrack SDK to connect to a BACtrack breathalyzer.  API keys are freely available by registering on the BACtrack [developer site][3].
 
 #### Android
-The following permissions must be declared in the <manifest> section of your application's manifest file in order to use the BACtrack SDK.
+The following permissions must be declared in the `manifest` section of your application's manifest file in order to use the BACtrack SDK.
 ```xml
 <manifest>
 
@@ -62,8 +63,8 @@ try {
 The BACtrack SDK is designed to return all notifications through a callback interface.  For Flutter, this
 has been abstracted to a Dart [Stream][4].  The plugin's `statusStream` will return all of the notifications 
 from the SDK in the form of a `BACtrackStatus` object. This object wraps a `BACtrackState` enum that 
-identifies the callback that was invoked as well as a `String` containing the parameter, if any, from that
-was passed to the callback function.  Check the API documentation for a list of which states contain messages.
+identifies the callback that was invoked as well as a message `String` containing the argument, if any, that was
+passed to the native callback function.  Check the API documentation for a list of which states contain messages.
 
 #### Taking a Breathalyzer Sample
 The following code will connect to the nearest breathalyzer and start a sample collection once it has
@@ -87,7 +88,7 @@ try {
 
 The above code is a bit simplistic. In reality you would want to listen for more of the status updates
 that can be emitted by the `statusStream` in response to a `connectToNearestBreathalyer()` call.  For
-example, any of the following status states maybe be emitted:
+example, any of the following status states maybe be emitted when you connect to a breathalyzer:
   * `BACtrackState.apiKeyAuthorized`
   * `BACtrackState.apiKeyDeclined`
   * `BACtrackState.didConnect`
@@ -115,3 +116,4 @@ I don't work on this full time, but I'll try to offer whatever help I can.
 [3]: https://developer.bactrack.com
 [4]: https://api.dart.dev/stable/2.7.2/dart-async/Stream-class.html
 [5]: https://pub.dev/packages/flutter_secure_storage
+[6]: https://www.bactrack.com/
