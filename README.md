@@ -63,7 +63,7 @@ try {
 The BACtrack SDK is designed to return all notifications through a callback interface.  For Flutter, this
 has been abstracted to a Dart [Stream][4].  The plugin's `statusStream` will return all of the notifications 
 from the SDK in the form of a `BACtrackStatus` object. This object wraps a `BACtrackState` enum that 
-identifies the callback that was invoked as well as a `String` containing the argument, if any, that was
+identifies the callback that was invoked as well as a message `String` containing the argument, if any, that was
 passed to the native callback function.  Check the API documentation for a list of which states contain messages.
 
 #### Taking a Breathalyzer Sample
