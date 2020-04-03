@@ -8,6 +8,8 @@
 #import "flutter_bactrack-Swift.h"
 #endif
 
+#import "BACtrack.h"
+
 @implementation FlutterBactrackPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   [SwiftFlutterBactrackPlugin registerWithRegistrar:registrar];

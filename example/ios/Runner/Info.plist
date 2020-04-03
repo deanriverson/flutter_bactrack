@@ -41,5 +41,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>This application needs access to Bluetooth for BAC readings</string>
 </dict>
 </plist>
