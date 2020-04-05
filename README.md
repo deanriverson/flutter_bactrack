@@ -22,7 +22,7 @@ The following permissions must be declared in the `manifest` section of your app
 ```xml
 <manifest>
 
-    <--! ... -->
+    <!-- ... -->
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -86,7 +86,12 @@ try {
 }
 ```
 
-The above code is a bit simplistic. In reality you would want to listen for more of the status updates
+The above code sets up a listener on the plugin's `statusStream` that filters out everything except the
+connected message.  Then it calls the plugin to connect to the nearest breathalyzer.  Once the connected
+status shows up on the `statusStream`, the plugin's `startCountdown` method is called to begin the process
+of taking a BAC sample.
+
+That example is a bit simplistic. In reality you would want to listen for more of the status updates
 that can be emitted by the `statusStream` in response to a `connectToNearestBreathalyer()` call.  For
 example, any of the following status states maybe be emitted when you connect to a breathalyzer:
   * `BACtrackState.apiKeyAuthorized`
