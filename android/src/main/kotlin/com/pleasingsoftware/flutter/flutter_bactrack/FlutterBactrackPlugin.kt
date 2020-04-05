@@ -81,8 +81,9 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
         // be defined in the same class.
         @JvmStatic
         fun registerWith(registrar: Registrar) {
+            Log.i(tag, "BACtrack plugin registering through old interface!")
             plugin = FlutterBactrackPlugin()
-            plugin?.initChannel(registrar.messenger(), registrar.context())
+            plugin?.initChannel(registrar.messenger(), registrar.context(), registrar.activity())
         }
     }
 
@@ -94,6 +95,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
 
     private var api: BACtrackAPI? = null
     private var pluginActivityBinding: ActivityPluginBinding? = null
+    private var pluginActivity: Activity? = null
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         Log.v(tag, "BACtrack plugin attached to engine")
@@ -130,7 +132,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
         permissions: Array<out String>?,
         grantResults: IntArray?
     ): Boolean {
-        Log.v(tag, "BACtrack plugin onRequestPermissionsResult: code $requestCode, permissions: ${permissions?.joinToString() ?: "null"}, grantResults: ${grantResults?.joinToString() ?: "null"}")
+        Log.i(tag, "BACtrack plugin onRequestPermissionsResult: code $requestCode, permissions: ${permissions?.joinToString() ?: "null"}, grantResults: ${grantResults?.joinToString() ?: "null"}")
         return when (requestCode) {
             pluginPermissionCode -> handlePermissionResult(grantResults)
             else -> false
@@ -140,6 +142,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
     private fun handleAttachment(binding: ActivityPluginBinding) {
         if (pluginActivityBinding == null) {
             pluginActivityBinding = binding
+            pluginActivity = pluginActivityBinding!!.activity
             binding.addRequestPermissionsResultListener(this)
         }
     }
@@ -149,11 +152,21 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
             return
 
         pluginActivityBinding?.removeRequestPermissionsResultListener(this)
+        pluginActivity = null
         pluginActivityBinding = null
     }
 
-    private fun initChannel(messenger: BinaryMessenger, ctx: Context) {
+    /**
+     * This may be called in one of two ways depending on whether the plugin is being initialized using
+     * the old Flutter plugin code (i.e. via the static registerWith method above) or the new plugin
+     * code (i.e. via the onAttachedToEngine method above).  When initializing with the old method, we
+     * must save a reference to our Activity since this will be the only way to get it.  When initializing
+     * with the new method, the activity ref is saved during the handleAttachment method.
+     */
+    private fun initChannel(messenger: BinaryMessenger, ctx: Context, activity: Activity? = null) {
         pluginContext = ctx
+        pluginActivity = activity
+
         channel = MethodChannel(messenger, CHANNEL_ID)
 
         channel.setMethodCallHandler { call: MethodCall, result: Result ->
@@ -196,6 +209,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
             return
         }
 
+        Log.i(tag, "Checking permissions, $pluginActivity should not be null")
         apiInitializer = createApiInitializer(apiKey, result)
 
         // TODO make sure we have a permission result before we do anything else
@@ -327,13 +341,15 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
     }
 
     private fun checkPermissions(): Boolean {
-        val activity = pluginActivityBinding!!.activity
+        if (pluginActivity == null) {
+            return false
+        }
 
         if (
-            isPermissionGranted(activity, Manifest.permission.BLUETOOTH) &&
-            isPermissionGranted(activity, Manifest.permission.BLUETOOTH_ADMIN) &&
-            isPermissionGranted(activity, Manifest.permission.ACCESS_FINE_LOCATION) &&
-            isPermissionGranted(activity, Manifest.permission.ACCESS_NETWORK_STATE)
+            isPermissionGranted(pluginActivity!!, Manifest.permission.BLUETOOTH) &&
+            isPermissionGranted(pluginActivity!!, Manifest.permission.BLUETOOTH_ADMIN) &&
+            isPermissionGranted(pluginActivity!!, Manifest.permission.ACCESS_FINE_LOCATION) &&
+            isPermissionGranted(pluginActivity!!, Manifest.permission.ACCESS_NETWORK_STATE)
         ) {
             Log.i(tag, "BACtrack plugin checkPermissions(): permissions have already been granted")
             return true
@@ -348,7 +364,7 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
             Manifest.permission.ACCESS_NETWORK_STATE
         )
 
-        ActivityCompat.requestPermissions(activity, perms, pluginPermissionCode)
+        pluginActivity!!.requestPermissions(perms, pluginPermissionCode)
         return false
     }
 
