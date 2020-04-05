@@ -209,7 +209,6 @@ class FlutterBactrackPlugin : FlutterPlugin, PluginRegistry.RequestPermissionsRe
             return
         }
 
-        Log.i(tag, "Checking permissions, $pluginActivity should not be null")
         apiInitializer = createApiInitializer(apiKey, result)
 
         // TODO make sure we have a permission result before we do anything else
