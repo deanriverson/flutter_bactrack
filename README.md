@@ -3,7 +3,7 @@
 A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.  This plugin will allow you to collect
 breathalyzer samples from a [BACtrack Bluetooth breathalyzer][6].
 
-![GitHub Logo](/assets/images/repo/flutter_bactrack.png)
+![BACtrack Screen Shot](/assets/images/repo/flutter_bactrack.png)
 
 #### Features
 The following features of the BACtrack SDK are supported at this time by the plugin.
