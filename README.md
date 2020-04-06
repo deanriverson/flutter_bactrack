@@ -3,7 +3,7 @@
 A [Flutter][1] plugin that wraps the [BACtrack SDK][2] for both iOS and Android.  This plugin will allow you to collect
 breathalyzer samples from a [BACtrack Bluetooth breathalyzer][6].
 
-> Note: this plugin is written in Kotlin and Swift.
+![GitHub Logo](/assets/images/repo/flutter_bactrack.png)
 
 #### Features
 The following features of the BACtrack SDK are supported at this time by the plugin.
@@ -14,6 +14,8 @@ The following features of the BACtrack SDK are supported at this time by the plu
   * :white_check_mark: Get battery voltage level of breathalyzer
   * :white_check_mark: Permissions are automatically managed by the plugin
   
+> :warning: Note: this plugin is written in Kotlin and Swift.
+
 ## Getting Started
 You are required to obtain an API key in order to use the BACtrack SDK to connect to a BACtrack breathalyzer.  API keys are freely available by registering on the BACtrack [developer site][3].
 
@@ -103,7 +105,7 @@ example, any of the following status states maybe be emitted when you connect to
 Check the API documentation for details on which status updates can be emitted in response to each of
 the plugin's method calls.
 
-> Note: It is possible to receive a `BACtrackState.disconnected` status at any time after you have
+> :warning: Note: It is possible to receive a `BACtrackState.disconnected` status at any time after you have
 > received a `BACtrackState.connected` status.
 
 ## Future Work
