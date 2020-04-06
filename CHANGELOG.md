@@ -1,3 +1,8 @@
+## v0.4.0
+
+* Fix for permissions problems with apps that use the old plugin system.
+* Documentation improvements
+
 ## v0.3.1
 
 * Documentation improvements
