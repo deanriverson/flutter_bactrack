@@ -1,3 +1,8 @@
+## v0.5.0
+
+* Replaced depricated OutlineButton with OutlinedButton in example.
+* Explicitly disabled bitcode generation for iOS build in pod spec file.
+
 ## v0.4.1
 
 * Documentation improvements

@@ -25,7 +25,9 @@ A flutter plugin for the BACtrack breathalyzer.
     bt.preserve_paths = 'libs/*.h'
     bt.vendored_libraries = 'libs/libBACtrackSDK.a'
     bt.libraries = 'BACtrackSDK'
-    bt.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../.symlinks/plugins/flutter_bactrack/ios/libs"
+    bt.xcconfig = { 
+      'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/../.symlinks/plugins/flutter_bactrack/ios/libs",
+      'ENABLE_BITCODE' => "NO"
     }
   end
 end

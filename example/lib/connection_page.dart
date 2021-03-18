@@ -172,7 +172,7 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
           ),
         ),
         if (_isConnected)
-          OutlineButton(
+          OutlinedButton(
             onPressed: () => Navigator.of(context).pushNamed(controlRoute, arguments: widget.bacTrackPlugin),
             child: Text(_nextText),
           )
@@ -206,11 +206,11 @@ class ConnectOptions extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        OutlineButton(
+        OutlinedButton(
           onPressed: onConnectToNearest,
           child: Text(_connectToNearestDeviceText),
         ),
-        OutlineButton(
+        OutlinedButton(
           onPressed: onDisconnect,
           child: Text(_disconnectFromDeviceText),
         ),
@@ -237,7 +237,9 @@ class StatusArea extends StatelessWidget {
               subtitle: sm.subtitle != null ? Text(sm.subtitle) : null,
               leading: sm.success == null
                   ? SizedBox(height: 24, width: 24, child: CircularProgressIndicator(value: null))
-                  : sm.success ? Icon(Icons.check, color: Colors.green) : Icon(Icons.close, color: Colors.red),
+                  : sm.success
+                      ? Icon(Icons.check, color: Colors.green)
+                      : Icon(Icons.close, color: Colors.red),
             ),
           )
           .toList(),

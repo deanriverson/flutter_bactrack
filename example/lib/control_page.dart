@@ -56,7 +56,7 @@ class BACTestTile extends StatelessWidget {
         return ListTile(
           title: Text('BAC Test'),
           subtitle: Text(_snapshotToText(snapshot)),
-          trailing: OutlineButton(
+          trailing: OutlinedButton(
             onPressed: () => bacTrackPlugin.startCountdown(),
             child: Icon(Icons.refresh),
           ),
@@ -143,7 +143,7 @@ class _BatteryVoltageTileState extends State<BatteryVoltageTile> {
     return ListTile(
       title: Text('Battery Voltage'),
       subtitle: Text('$_voltage / $_level'),
-      trailing: OutlineButton(
+      trailing: OutlinedButton(
         onPressed: () => widget.bacTrackPlugin.getBreathalyzerBatteryVoltage(),
         child: Icon(Icons.refresh),
       ),
@@ -183,7 +183,7 @@ class UseCountTile extends StatelessWidget {
         return ListTile(
           title: Text('Use Count'),
           subtitle: Text(_snapshotToText(snapshot)),
-          trailing: OutlineButton(
+          trailing: OutlinedButton(
             onPressed: () => bacTrackPlugin.getUseCount(),
             child: Icon(Icons.refresh),
           ),
@@ -232,7 +232,7 @@ class SerialNumberTile extends StatelessWidget {
         return ListTile(
           title: Text('Serial Number'),
           subtitle: Text(_snapshotToText(snapshot)),
-          trailing: OutlineButton(
+          trailing: OutlinedButton(
             onPressed: () => bacTrackPlugin.getSerialNumber(),
             child: Icon(Icons.refresh),
           ),
@@ -281,7 +281,7 @@ class FirmwareVersionTile extends StatelessWidget {
         return ListTile(
           title: Text('Firmware Version'),
           subtitle: Text(_snapshotToText(snapshot)),
-          trailing: OutlineButton(
+          trailing: OutlinedButton(
             onPressed: () => bacTrackPlugin.getFirmwareVersion(),
             child: Icon(Icons.refresh),
           ),

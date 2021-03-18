@@ -38,7 +38,7 @@ class _ApiKeyPageState extends State<ApiKeyPage> {
                 controller: _textController,
                 onChanged: (value) => setState(() => _keyIsValid = value.isNotEmpty),
               ),
-              OutlineButton(
+              OutlinedButton(
                 onPressed: _keyIsValid ? _handleNext : null,
                 child: Text('Next'),
               ),
