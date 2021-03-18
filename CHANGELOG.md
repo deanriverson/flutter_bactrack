@@ -1,3 +1,7 @@
+## v1.0.0
+
+* Updated plugin to support null safety.
+
 ## v0.5.0
 
 * Replaced depricated OutlineButton with OutlinedButton in example.
