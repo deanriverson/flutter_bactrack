@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bactrack/flutter_bactrack.dart';
-import 'package:flutter_bactrack_example/main.dart';
+
+import 'main.dart';
 
 const _nextText = "Next";
 const _initializingPluginText = "Initializing plugin";
@@ -16,12 +17,12 @@ class StatusMessage {
   StatusMessage(this.title, this.success, [this.subtitle]);
 
   final String title;
-  final String subtitle;
-  final bool success;
+  final String? subtitle;
+  final bool? success;
 }
 
 class ConnectionPage extends StatefulWidget {
-  const ConnectionPage({Key key, this.apiKey}) : super(key: key);
+  const ConnectionPage({Key? key, required this.apiKey}) : super(key: key);
 
   final String apiKey;
 
@@ -30,8 +31,8 @@ class ConnectionPage extends StatefulWidget {
 }
 
 class _ConnectionPageState extends State<ConnectionPage> {
-  FlutterBactrack _bacTrackPlugin;
-  StatusMessage _initStatus;
+  FlutterBactrack? _bacTrackPlugin;
+  late StatusMessage _initStatus;
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _ConnectionPageState extends State<ConnectionPage> {
           child: _bacTrackPlugin == null
               ? StatusArea(statusMessages: [_initStatus])
               : ConnectionContainer(
-                  bacTrackPlugin: _bacTrackPlugin,
+                  bacTrackPlugin: _bacTrackPlugin!,
                   initStatus: _initStatus,
                 ),
         ),
@@ -73,9 +74,9 @@ class _ConnectionPageState extends State<ConnectionPage> {
 
 class ConnectionContainer extends StatefulWidget {
   const ConnectionContainer({
-    Key key,
-    @required this.bacTrackPlugin,
-    @required this.initStatus,
+    Key? key,
+    required this.bacTrackPlugin,
+    required this.initStatus,
   }) : super(key: key);
 
   final FlutterBactrack bacTrackPlugin;
@@ -87,9 +88,9 @@ class ConnectionContainer extends StatefulWidget {
 
 class _ConnectionContainerState extends State<ConnectionContainer> {
   bool _isConnected = false;
-  StatusMessage _connectionStatus;
+  StatusMessage? _connectionStatus;
   List<StatusMessage> _statuses = [];
-  StreamSubscription _sub;
+  late StreamSubscription _sub;
 
   static const _connectionStates = {
     BACtrackState.foundBreathalyzer,
@@ -149,7 +150,7 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
   }
 
   void dispose() {
-    _sub?.cancel();
+    _sub.cancel();
     super.dispose();
   }
 
@@ -166,7 +167,7 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
           child: StatusArea(
             statusMessages: [
               widget.initStatus,
-              if (_connectionStatus != null) _connectionStatus,
+              if (_connectionStatus != null) _connectionStatus!,
               ..._statuses,
             ],
           ),
@@ -193,9 +194,9 @@ class _ConnectionContainerState extends State<ConnectionContainer> {
 
 class ConnectOptions extends StatelessWidget {
   const ConnectOptions({
-    Key key,
-    this.onConnectToNearest,
-    this.onDisconnect,
+    Key? key,
+    required this.onConnectToNearest,
+    required this.onDisconnect,
   }) : super(key: key);
 
   final Function() onConnectToNearest;
@@ -221,8 +222,8 @@ class ConnectOptions extends StatelessWidget {
 
 class StatusArea extends StatelessWidget {
   const StatusArea({
-    Key key,
-    this.statusMessages,
+    Key? key,
+    required this.statusMessages,
   }) : super(key: key);
 
   final List<StatusMessage> statusMessages;
@@ -234,10 +235,10 @@ class StatusArea extends StatelessWidget {
           .map(
             (sm) => ListTile(
               title: Text(sm.title),
-              subtitle: sm.subtitle != null ? Text(sm.subtitle) : null,
+              subtitle: sm.subtitle != null ? Text(sm.subtitle!) : null,
               leading: sm.success == null
                   ? SizedBox(height: 24, width: 24, child: CircularProgressIndicator(value: null))
-                  : sm.success
+                  : sm.success == true
                       ? Icon(Icons.check, color: Colors.green)
                       : Icon(Icons.close, color: Colors.red),
             ),

@@ -5,9 +5,9 @@ import 'package:flutter_bactrack/flutter_bactrack.dart';
 import 'package:flutter_bactrack_example/main.dart';
 
 class ControlPage extends StatelessWidget {
-  const ControlPage({Key key, this.bacTrackPlugin}) : super(key: key);
+  const ControlPage({Key? key, this.bacTrackPlugin}) : super(key: key);
 
-  final FlutterBactrack bacTrackPlugin;
+  final FlutterBactrack? bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +42,22 @@ class BACTestTile extends StatelessWidget {
   };
 
   const BACTestTile({
-    Key key,
-    @required this.bacTrackPlugin,
+    Key? key,
+    required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final FlutterBactrack bacTrackPlugin;
+  final FlutterBactrack? bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bacTrackPlugin.statusStream.where((status) => _bacTestStates.contains(status.state)),
+      stream: bacTrackPlugin!.statusStream.where((status) => _bacTestStates.contains(status.state)),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return ListTile(
           title: Text('BAC Test'),
-          subtitle: Text(_snapshotToText(snapshot)),
+          subtitle: Text(_snapshotToText(snapshot as AsyncSnapshot<BACtrackStatus>)),
           trailing: OutlinedButton(
-            onPressed: () => bacTrackPlugin.startCountdown(),
+            onPressed: () => bacTrackPlugin!.startCountdown(),
             child: Icon(Icons.refresh),
           ),
         );
@@ -68,7 +68,7 @@ class BACTestTile extends StatelessWidget {
   String _snapshotToText(AsyncSnapshot<BACtrackStatus> snapshot) {
     final status = snapshot.data;
 
-    if (!snapshot.hasData || !_bacTestStates.contains(status.state)) {
+    if (!snapshot.hasData || !_bacTestStates.contains(status!.state)) {
       return '';
     }
 
@@ -95,11 +95,11 @@ class BACTestTile extends StatelessWidget {
 
 class BatteryVoltageTile extends StatefulWidget {
   const BatteryVoltageTile({
-    Key key,
-    @required this.bacTrackPlugin,
+    Key? key,
+    required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final FlutterBactrack bacTrackPlugin;
+  final FlutterBactrack? bacTrackPlugin;
 
   @override
   _BatteryVoltageTileState createState() => _BatteryVoltageTileState();
@@ -114,12 +114,12 @@ class _BatteryVoltageTileState extends State<BatteryVoltageTile> {
 
   String _voltage = '--';
   String _level = '--';
-  StreamSubscription _sub;
+  StreamSubscription? _sub;
 
   @override
   void initState() {
     super.initState();
-    _sub = widget.bacTrackPlugin.statusStream.where((status) {
+    _sub = widget.bacTrackPlugin!.statusStream.where((status) {
       return _expectedStates.contains(status.state);
     }).listen((status) {
       if (status.state == BACtrackState.batteryVoltage) {
@@ -144,7 +144,7 @@ class _BatteryVoltageTileState extends State<BatteryVoltageTile> {
       title: Text('Battery Voltage'),
       subtitle: Text('$_voltage / $_level'),
       trailing: OutlinedButton(
-        onPressed: () => widget.bacTrackPlugin.getBreathalyzerBatteryVoltage(),
+        onPressed: () => widget.bacTrackPlugin!.getBreathalyzerBatteryVoltage(),
         child: Icon(Icons.refresh),
       ),
     );
@@ -169,22 +169,22 @@ class UseCountTile extends StatelessWidget {
   };
 
   const UseCountTile({
-    Key key,
-    @required this.bacTrackPlugin,
+    Key? key,
+    required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final FlutterBactrack bacTrackPlugin;
+  final FlutterBactrack? bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bacTrackPlugin.statusStream.where((status) => UseCountTile._expectedStates.contains(status.state)),
+      stream: bacTrackPlugin!.statusStream.where((status) => UseCountTile._expectedStates.contains(status.state)),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return ListTile(
           title: Text('Use Count'),
-          subtitle: Text(_snapshotToText(snapshot)),
+          subtitle: Text(_snapshotToText(snapshot as AsyncSnapshot<BACtrackStatus>)),
           trailing: OutlinedButton(
-            onPressed: () => bacTrackPlugin.getUseCount(),
+            onPressed: () => bacTrackPlugin!.getUseCount(),
             child: Icon(Icons.refresh),
           ),
         );
@@ -199,7 +199,7 @@ class UseCountTile extends StatelessWidget {
       return '';
     }
 
-    switch (status.state) {
+    switch (status!.state) {
       case BACtrackState.useCount:
         return 'Use Count: ${status.message}';
         break;
@@ -218,22 +218,22 @@ class SerialNumberTile extends StatelessWidget {
   };
 
   const SerialNumberTile({
-    Key key,
-    @required this.bacTrackPlugin,
+    Key? key,
+    required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final FlutterBactrack bacTrackPlugin;
+  final FlutterBactrack? bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bacTrackPlugin.statusStream.where((status) => SerialNumberTile._expectedStates.contains(status.state)),
+      stream: bacTrackPlugin!.statusStream.where((status) => SerialNumberTile._expectedStates.contains(status.state)),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return ListTile(
           title: Text('Serial Number'),
-          subtitle: Text(_snapshotToText(snapshot)),
+          subtitle: Text(_snapshotToText(snapshot as AsyncSnapshot<BACtrackStatus>)),
           trailing: OutlinedButton(
-            onPressed: () => bacTrackPlugin.getSerialNumber(),
+            onPressed: () => bacTrackPlugin!.getSerialNumber(),
             child: Icon(Icons.refresh),
           ),
         );
@@ -248,7 +248,7 @@ class SerialNumberTile extends StatelessWidget {
       return '';
     }
 
-    switch (status.state) {
+    switch (status!.state) {
       case BACtrackState.serialNumber:
         return 'Serial #: ${status.message}';
         break;
@@ -267,22 +267,22 @@ class FirmwareVersionTile extends StatelessWidget {
   };
 
   const FirmwareVersionTile({
-    Key key,
-    @required this.bacTrackPlugin,
+    Key? key,
+    required this.bacTrackPlugin,
   }) : super(key: key);
 
-  final FlutterBactrack bacTrackPlugin;
+  final FlutterBactrack? bacTrackPlugin;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bacTrackPlugin.statusStream.where((status) => FirmwareVersionTile._expectedStates.contains(status.state)),
+      stream: bacTrackPlugin!.statusStream.where((status) => FirmwareVersionTile._expectedStates.contains(status.state)),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         return ListTile(
           title: Text('Firmware Version'),
-          subtitle: Text(_snapshotToText(snapshot)),
+          subtitle: Text(_snapshotToText(snapshot as AsyncSnapshot<BACtrackStatus>)),
           trailing: OutlinedButton(
-            onPressed: () => bacTrackPlugin.getFirmwareVersion(),
+            onPressed: () => bacTrackPlugin!.getFirmwareVersion(),
             child: Icon(Icons.refresh),
           ),
         );
@@ -297,7 +297,7 @@ class FirmwareVersionTile extends StatelessWidget {
       return '';
     }
 
-    switch (status.state) {
+    switch (status!.state) {
       case BACtrackState.firmwareVersion:
         return 'Firmware: V${status.message}';
         break;

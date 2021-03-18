@@ -15,7 +15,7 @@ void main() {
     await tester.pumpWidget(BACtrackExampleApp());
 
     expect(
-      find.byWidgetPredicate((Widget widget) => widget is Text && widget.data.startsWith('Enter')),
+      find.byWidgetPredicate((Widget widget) => widget is Text && widget.data!.startsWith('Enter')),
       findsOneWidget,
     );
   });
