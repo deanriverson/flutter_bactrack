@@ -101,10 +101,10 @@ class FlutterBactrack {
   static const CHANNEL_ID = "com.pleasingsoftware.flutter/bactrack_plugin";
   static const MethodChannel _channel = MethodChannel(CHANNEL_ID);
 
-  static FlutterBactrack _instance;
+  static FlutterBactrack? _instance;
 
-  BACtrackStatus _currentStatus;
-  StreamController<BACtrackStatus> _statusStreamController;
+  BACtrackStatus _currentStatus = BACtrackStatus(BACtrackState.disconnected);
+  late StreamController<BACtrackStatus> _statusStreamController;
 
   FlutterBactrack._() {
     _statusStreamController = StreamController.broadcast(onListen: _onListen);
@@ -114,9 +114,11 @@ class FlutterBactrack {
   /// Use this method to get a reference to an object that allows you to interact with
   /// a BACtrack device.
   static Future<FlutterBactrack> instance(String apiKey) async {
-    _instance ??= FlutterBactrack._();
+    if (_instance == null) {
+      _instance = FlutterBactrack._();
+    }
     await _channel.invokeMethod(initMethod, apiKey);
-    return _instance;
+    return _instance!;
   }
 
   /// This [Stream] emits [BACtrackStatus] objects to allow the Flutter application
@@ -149,7 +151,7 @@ class FlutterBactrack {
   ///   * [BACtrackState.analyzing]
   ///   * [BACtrackState.results].
   ///   * [BACtrackState.error].
-  Future<bool> startCountdown() async {
+  Future<bool?> startCountdown() async {
     return await _channel.invokeMethod(startCountdownMethod);
   }
 
@@ -160,7 +162,7 @@ class FlutterBactrack {
   ///   * [BACtrackState.error].
   ///
   /// iOS Note: Only batteryLevel is available on iOS.
-  Future<bool> getBreathalyzerBatteryVoltage() async {
+  Future<bool?> getBreathalyzerBatteryVoltage() async {
     return await _channel.invokeMethod(getBreathalyzerBatteryVoltageMethod);
   }
 
@@ -171,7 +173,7 @@ class FlutterBactrack {
   ///
   /// Note: Is not supported on all BACtrack devices.
   /// iOS Note: Not available on iOS.
-  Future<bool> getUseCount() async {
+  Future<bool?> getUseCount() async {
     return await _channel.invokeMethod(getUseCountMethod);
   }
 
@@ -181,7 +183,7 @@ class FlutterBactrack {
   ///   * [BACtrackState.error].
   ///
   /// iOS Note: Not available on iOS.
-  Future<bool> getSerialNumber() async {
+  Future<bool?> getSerialNumber() async {
     return await _channel.invokeMethod(getSerialNumberMethod);
   }
 
@@ -191,7 +193,7 @@ class FlutterBactrack {
   ///   * [BACtrackState.error].
   ///
   /// iOS Note: Not available on iOS.
-  Future<bool> getFirmwareVersion() async {
+  Future<bool?> getFirmwareVersion() async {
     return await _channel.invokeMethod(getFirmwareVersionMethod);
   }
 
@@ -212,9 +214,7 @@ class FlutterBactrack {
   /// Send out the current BACtrackStatus, if there is one, every time a
   /// listener is added.
   void _onListen() {
-    if (_currentStatus != null) {
-      _statusStreamController.add(_currentStatus);
-    }
+    _statusStreamController.add(_currentStatus);
   }
 
   Future _handleMethodCall(MethodCall call) async {
@@ -224,7 +224,7 @@ class FlutterBactrack {
     }
   }
 
-  void _updateStream(BACtrackState state, String message) {
+  void _updateStream(BACtrackState state, String? message) {
     _currentStatus = BACtrackStatus(state, message: message ?? '');
     _statusStreamController.add(_currentStatus);
   }
@@ -233,4 +233,4 @@ class FlutterBactrack {
 /// This method is for unit testing only!  It provides the ability to set up
 /// a mock handler for the plugin channel.
 void bacTrackPluginSetMockMethodCallHandler(Function(MethodCall) mockHandler) =>
-    FlutterBactrack._channel.setMockMethodCallHandler(mockHandler);
+    FlutterBactrack._channel.setMockMethodCallHandler(mockHandler as Future<dynamic>? Function(MethodCall)?);
