@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 
 const initMethod = "init";
 const connectToNearestBreathalyzerMethod = "connectToNearestBreathalyzer";
-const connectToNearestBreathalyzerWithTimeoutMethod = "connectToNearestBreathalyzerWithTimeout";
+const connectToNearestBreathalyzerWithTimeoutMethod =
+    "connectToNearestBreathalyzerWithTimeout";
 const disconnectMethod = "disconnect";
 const startScanMethod = "startScan";
 const stopScanMethod = "stopScan";
@@ -47,7 +48,8 @@ enum BACtrackState {
 }
 
 /// An internal method to map method names to [BACtracState] enum values.
-final Map<String, BACtrackState> _methodNameToState = BACtrackState.values.fold({}, (map, state) {
+final Map<String, BACtrackState> _methodNameToState =
+    BACtrackState.values.fold({}, (map, state) {
   final name = state.toString().split('.')[1];
   map[name] = state;
   return map;
@@ -137,7 +139,8 @@ class FlutterBactrack {
   ///   * [BACtrackState.connectionTimeout].
   Future connectToNearestBreathalyzer({bool withTimeout = false}) async {
     if (withTimeout) {
-      await _channel.invokeMethod(connectToNearestBreathalyzerWithTimeoutMethod);
+      await _channel
+          .invokeMethod(connectToNearestBreathalyzerWithTimeoutMethod);
     } else {
       await _channel.invokeMethod(connectToNearestBreathalyzerMethod);
     }
@@ -233,4 +236,6 @@ class FlutterBactrack {
 /// This method is for unit testing only!  It provides the ability to set up
 /// a mock handler for the plugin channel.
 void bacTrackPluginSetMockMethodCallHandler(Function(MethodCall) mockHandler) =>
-    FlutterBactrack._channel.setMockMethodCallHandler(mockHandler as Future<dynamic>? Function(MethodCall)?);
+    FlutterBactrack._channel.setMockMethodCallHandler(
+      mockHandler as Future<dynamic>? Function(MethodCall)?,
+    );
