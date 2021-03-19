@@ -1,3 +1,7 @@
+## v1.0.1
+
+* Fixed minor code formatting issues and CHANGELOG typos.
+
 ## v1.0.0
 
 * Updated plugin to support null safety.
