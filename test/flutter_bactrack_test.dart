@@ -9,7 +9,7 @@ void main() {
     const apiKey = "abcdefghijklmnop";
     bool apiKeyWasReceived = false;
 
-    bacTrackPluginSetMockMethodCallHandler((MethodCall methodCall) async {
+    getFlutterBactrackMethodChannelForTesting().setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == initMethod) {
         apiKeyWasReceived = apiKey == methodCall.arguments.toString();
       }
@@ -23,7 +23,7 @@ void main() {
   test('connectToNearestBreathalyzer calls correct channel method if timeout is not true', () async {
     bool correctMethodCalled = false;
 
-    bacTrackPluginSetMockMethodCallHandler((MethodCall methodCall) async {
+    getFlutterBactrackMethodChannelForTesting().setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == connectToNearestBreathalyzerMethod) {
         correctMethodCalled = true;
       }
@@ -45,7 +45,7 @@ void main() {
   test('connectToNearestBreathalyzer calls correct channel method if a timeout is true', () async {
     bool correctMethodCalled = false;
 
-    bacTrackPluginSetMockMethodCallHandler((MethodCall methodCall) async {
+    getFlutterBactrackMethodChannelForTesting().setMockMethodCallHandler((MethodCall methodCall) async {
       if (methodCall.method == connectToNearestBreathalyzerWithTimeoutMethod) {
         correctMethodCalled = true;
       }

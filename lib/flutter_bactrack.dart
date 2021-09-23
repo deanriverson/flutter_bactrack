@@ -4,8 +4,7 @@ import 'package:flutter/services.dart';
 
 const initMethod = "init";
 const connectToNearestBreathalyzerMethod = "connectToNearestBreathalyzer";
-const connectToNearestBreathalyzerWithTimeoutMethod =
-    "connectToNearestBreathalyzerWithTimeout";
+const connectToNearestBreathalyzerWithTimeoutMethod = "connectToNearestBreathalyzerWithTimeout";
 const disconnectMethod = "disconnect";
 const startScanMethod = "startScan";
 const stopScanMethod = "stopScan";
@@ -48,8 +47,7 @@ enum BACtrackState {
 }
 
 /// An internal method to map method names to [BACtracState] enum values.
-final Map<String, BACtrackState> _methodNameToState =
-    BACtrackState.values.fold({}, (map, state) {
+final Map<String, BACtrackState> _methodNameToState = BACtrackState.values.fold({}, (map, state) {
   final name = state.toString().split('.')[1];
   map[name] = state;
   return map;
@@ -139,8 +137,7 @@ class FlutterBactrack {
   ///   * [BACtrackState.connectionTimeout].
   Future connectToNearestBreathalyzer({bool withTimeout = false}) async {
     if (withTimeout) {
-      await _channel
-          .invokeMethod(connectToNearestBreathalyzerWithTimeoutMethod);
+      await _channel.invokeMethod(connectToNearestBreathalyzerWithTimeoutMethod);
     } else {
       await _channel.invokeMethod(connectToNearestBreathalyzerMethod);
     }
@@ -233,9 +230,8 @@ class FlutterBactrack {
   }
 }
 
-/// This method is for unit testing only!  It provides the ability to set up
-/// a mock handler for the plugin channel.
-void bacTrackPluginSetMockMethodCallHandler(Function(MethodCall) mockHandler) =>
-    FlutterBactrack._channel.setMockMethodCallHandler(
-      mockHandler as Future<dynamic>? Function(MethodCall)?,
-    );
+/// Allows way to access the private _channel data member for unit testing purposes.
+///
+/// WARNING: Don't use this method in production code unless you know what you're doing! Making
+/// changes to the [MethodChannel] object may impact the proper functioning of the plugin.
+MethodChannel getFlutterBactrackMethodChannelForTesting() => FlutterBactrack._channel;
